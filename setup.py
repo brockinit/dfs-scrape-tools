@@ -1,8 +1,8 @@
 from distutils.core import setup
 
 setup(
-    name='dfs-scrape-tools',
-    packages=['dfs-scrape-tools'],
+    name='interscraped',
+    packages=['interscraped'],
     version='0.0.1',
     description='A web scraper that obtains and parses NFL stats and fantasy data',
     author='Brock Lanoza',
