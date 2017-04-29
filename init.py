@@ -1,7 +1,7 @@
 from roto_guru import roto_guru_scraper
 
 
-def main(job, options=None):
+def scraper(job, options=None):
     scrapers = {
         'roto_guru_scraper': roto_guru_scraper
     }
@@ -14,4 +14,4 @@ def main(job, options=None):
         print('No job of this type available')
 
 
-main('roto_guru_scraper')
+scraper('roto_guru_scraper')

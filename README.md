@@ -1,2 +1,7 @@
-# dfs-scrape-tools
+# Daily Fantasy Sports Scrape Tools
 A collection of web scrapers for obtaining NFL stats and fantasy data
+* * *
+
+## Basic Usage
+
+* Run `python init.py`
