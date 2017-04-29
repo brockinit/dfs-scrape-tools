@@ -8,7 +8,7 @@ setup(
     author='Brock Lanoza',
     author_email='brock@sudokrew.com',
     url='https://github.com/brockinit/dfs-scrape-tools',
-    download_url='https://github.com/brockinit/dfs-scrape-tools/archive/0.0.1.tar.gz',
+    download_url='https://github.com/brockinit/dfs-scrape-tools/archive/0.0.3.tar.gz',
     keywords=['web-scrape', 'scraper', 'daily', 'fantasy', 'sports'],
     classifiers=[],
     install_requires=['bs4', 'requests'],
