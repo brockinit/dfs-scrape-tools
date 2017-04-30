@@ -4,7 +4,7 @@ A collection of web scrapers for obtaining NFL stats and fantasy data
 
 ## Documentation
 
-* Can be found [here]((https://github.com/brockinit/dfs-scrape-tools/tree/master/docs))
+* Can be found [here](https://github.com/brockinit/dfs-scrape-tools/tree/master/docs)
 
 ## Basic Usage
 
