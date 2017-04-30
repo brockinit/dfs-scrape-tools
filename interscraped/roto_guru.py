@@ -65,10 +65,10 @@ def scraper(years=None, weeks=None, game=None):
 
             # Read each line and filter out malformed data
             for idx, line in enumerate(raw_data):
-                if 'ERR' in line:
-                    print('Malformed Line', line)
-                elif old_headers in line:
+                if idx == 0:
                     formatted_data = new_headers + '\n'
+                elif 'ERR' in line:
+                    print('Malformed Line', line)
                 else:
                     nullify_na = line.replace('N/A', '')
                     if idx == len(raw_data) - 1:
