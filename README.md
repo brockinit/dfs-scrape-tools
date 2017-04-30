@@ -2,13 +2,17 @@
 A collection of web scrapers for obtaining NFL stats and fantasy data
 * * *
 
+## Documentation
+
+* Can be found [here]((https://github.com/brockinit/dfs-scrape-tools/tree/master/docs))
+
 ## Basic Usage
 
-* `pip install dfs-scrape-tools`
+* `pip install interscraped`
 
-* By default, `dfs-scrape-tools` will write the files to the CWD
+* By default, `interscraped` will write the files to the CWD
 ```python
-import dfs-scrape-tools
+import interscraped
 
 options = {
     'years': [2011, 2015],
@@ -16,5 +20,5 @@ options = {
     'game': 'fd'
 }
 
-dfs-scrape-tools.roto_guru(options)
+interscraped.daily_fantasy(options)
 ```
