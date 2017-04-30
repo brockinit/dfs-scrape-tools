@@ -5,7 +5,7 @@
 * The possible data options include Fanduel, Draft Kings, and Yahoo
 
 ### Arguments
-* `options` :: `(required)` :: `{Dict}` :: Options that dictate which data is scraped.
+* `options` :: `(required)` :: `{Dict}` :: The keys dictate which data is scraped.
 Defaults to:
 ```python
 {
@@ -19,8 +19,12 @@ Defaults to:
 
 ```python
 from interscraped import daily_fantasy
+
 '''
+
 Downloads all Fanduel data from the 2012 and 2014 season, weeks 1, 2, and 3
+
 '''
+
 daily_fantasy({ 'years': [2012, 2014], 'weeks': [1, 2, 3], 'game': 'fd' })
 ```
