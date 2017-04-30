@@ -7,7 +7,7 @@ default_weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 default_games = ['fd', 'dk', 'yh']
 
 
-def roto_guru_scraper(years=None, weeks=None, game=None):
+def scraper(years=None, weeks=None, game=None):
     if years is None or type(years) != list:
         years = default_years
     if weeks is None or type(weeks) != list:

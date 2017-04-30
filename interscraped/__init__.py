@@ -1,5 +1,16 @@
-from roto_guru import roto_guru_scraper
+from interscraped import roto_guru
 
 
-def roto_guru(options):
-    return roto_guru_scraper(options.years, options.weeks, options.game)
+def daily_fantasy(options=None):
+    if not options:
+        return roto_guru.scraper()
+    else:
+        years = weeks = game = None
+        if 'years' in options:
+            years = options['years']
+        if 'weeks' in options:
+            weeks = options['weeks']
+        if 'game' in options:
+            game = options['game']
+
+        return roto_guru.scraper(years, weeks, game)
