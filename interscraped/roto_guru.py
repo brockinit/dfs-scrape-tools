@@ -15,6 +15,10 @@ def scraper(years=None, weeks=None, game=None):
     if game is None or type(game) != str:
         game = default_games[0]
 
+    old_headers = 'Week;Year;GID;Name;Pos;Team;h/a;Oppt;{0} points;{0} salary'.format(
+        game.upper()
+    )
+
     # Check that game type is valid
     try:
         default_games.index(game)
@@ -24,8 +28,7 @@ def scraper(years=None, weeks=None, game=None):
     # Make the top-level directory for the CSV data
     os.mkdir('./{}'.format(game))
 
-    old_headers = 'Week;Year;GID;Name;Pos;Team;h/a;Oppt;FD points;FD salary'
-    new_headers = 'week;year;gid;name;pos;team;homeaway;oppt;fdpts;fdsalary'
+    new_headers = 'week;year;gid;name;pos;team;homeaway;oppt;points;salary'
     base_url = 'http://rotoguru1.com/cgi-bin/fyday.pl'
 
     for year in years:
