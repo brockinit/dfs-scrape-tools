@@ -26,7 +26,7 @@ fs = 2
 # Top level directory name
 directory = './snap_count'
 
-headers = 'rank,id,player,pos,team,opp,wk,snaps,snappct,rushpct,tgtpct,tchpct,utlpct,fantpts,pts100snp,seas'
+headers = 'rank,id,player,pos,team,opp,week,snaps,snappct,rushpct,tgtpct,tchpct,utlpct,fantpts,pts100snp,seas'
 sn = w = ew = p = None
 
 

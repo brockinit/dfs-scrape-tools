@@ -11,5 +11,5 @@ setup(
     download_url='https://github.com/brockinit/dfs-scrape-tools/archive/0.0.7.tar.gz',
     keywords=['web-scrape', 'scraper', 'daily', 'fantasy', 'sports'],
     classifiers=[],
-    install_requires=['bs4', 'requests']
+    install_requires=['bs4', 'requests', 'robobrowser']
 )
