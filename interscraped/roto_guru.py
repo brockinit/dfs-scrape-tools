@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 default_years = [2011, 2012, 2013, 2014, 2015, 2016]
 default_weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 default_games = ['fd', 'dk', 'yh']
+new_headers = 'week;year;gid;name;pos;team;homeaway;oppt;points;salary'
+base_url = 'http://rotoguru1.com/cgi-bin/fyday.pl'
 
 
 def scraper(years=None, weeks=None, game=None):
@@ -27,9 +29,6 @@ def scraper(years=None, weeks=None, game=None):
 
     # Make the top-level directory for the CSV data
     os.mkdir('./{}'.format(game))
-
-    new_headers = 'week;year;gid;name;pos;team;homeaway;oppt;points;salary'
-    base_url = 'http://rotoguru1.com/cgi-bin/fyday.pl'
 
     for year in years:
         # Check that year provided was within boundaries

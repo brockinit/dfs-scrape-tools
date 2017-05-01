@@ -1,4 +1,4 @@
-from interscraped import roto_guru
+from interscraped import roto_guru, fantasy_data
 
 
 def daily_fantasy(options=None):
@@ -14,3 +14,7 @@ def daily_fantasy(options=None):
             game = options['game']
 
         return roto_guru.scraper(years, weeks, game)
+
+
+def snap_counts():
+    return fantasy_data.scraper()
