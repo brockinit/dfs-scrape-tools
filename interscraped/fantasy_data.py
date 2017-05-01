@@ -3,6 +3,8 @@ import time
 from robobrowser import RoboBrowser
 
 login_url = 'https://fantasydata.com/user/login.aspx'
+my_email = os.environ['EMAIL']
+my_pass = os.envrion['PASSWORD']
 
 default_years = [
     {'2012': 4},
@@ -82,8 +84,8 @@ def scraper():
                 formatted_data = ''
 
                 for idx, line in enumerate(content):
-                    # Handle header here
-                    if idx == 0 & week == 0:
+                    # Only add the header once per year
+                    if idx == 0 and week == 0 and pos == 2:
                         formatted_data = headers + '\n'
                     elif idx != 0:
                         parsed_data = ','.join(line.find_all(text=True))
@@ -98,7 +100,7 @@ def scraper():
 
                 try:
                     # Write to the current year file
-                    print(file_path)
+                    print(file_path, ':', week)
                     write_file = open(file_path, 'a')
                     write_file.write(formatted_data)
                     write_file.close()
