@@ -16,5 +16,16 @@ def daily_fantasy(options=None):
         return roto_guru.scraper(years, weeks, game)
 
 
-def snap_counts():
-    return fantasy_data.scraper()
+def snap_counts(options=None):
+    if not options:
+        raise ValueError
+    else:
+        email = password = None
+        if 'email' in options:
+            email = options['email']
+        if 'password' in options:
+            password = options['password']
+        if not email and not password:
+            raise ValueError
+        else:
+            return fantasy_data.scraper(email, password)

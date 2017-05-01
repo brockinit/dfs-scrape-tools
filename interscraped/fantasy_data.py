@@ -3,8 +3,6 @@ import time
 from robobrowser import RoboBrowser
 
 login_url = 'https://fantasydata.com/user/login.aspx'
-my_email = os.environ['EMAIL']
-my_pass = os.envrion['PASSWORD']
 
 default_years = [
     {'2012': 4},
@@ -30,14 +28,14 @@ headers = 'rank,id,player,pos,team,opp,week,snaps,snappct,rushpct,tgtpct,tchpct,
 sn = w = ew = p = None
 
 
-def scraper():
+def scraper(email, password):
     browser = RoboBrowser(parser='lxml')
     browser.open(login_url)
     login_form = browser.get_forms()[0]
 
     # Set login credentials
-    login_form['ctl00$Body$EmailTextbox'].value = my_email
-    login_form['ctl00$Body$PasswordTextbox'].value = my_pass
+    login_form['ctl00$Body$EmailTextbox'].value = email
+    login_form['ctl00$Body$PasswordTextbox'].value = password
     login_form.serialize()
 
     # Submit login form
