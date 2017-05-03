@@ -22,7 +22,7 @@ from interscraped import daily_fantasy
 
 '''
 
-Downloads all Fanduel data from the 2012 and 2014 season, weeks 1, 2, and 3
+Scrapes **all Fanduel data** from the 2012 and 2014 season, weeks 1, 2, and 3
 
 '''
 
