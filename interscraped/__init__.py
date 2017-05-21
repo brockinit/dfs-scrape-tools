@@ -1,4 +1,9 @@
-from interscraped import roto_guru, def_pts_vs, player_data
+from interscraped import (
+    roto_guru,
+    def_pts_vs,
+    player_data,
+    consistency_ratings
+)
 
 
 def daily_fantasy(options=None):
@@ -22,3 +27,7 @@ def def_vs(options=None):
 
 def indiv_player(options=None):
     return player_data.scraper()
+
+
+def player_consistency(options=None):
+    return consistency_ratings.scraper()
