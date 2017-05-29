@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 default_years = [2011, 2012, 2013, 2014, 2015, 2016]
 default_weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 default_games = ['fd', 'dk', 'yh']
-new_headers = 'week;year;gid;name;pos;team;homeaway;oppt;points;salary'
+new_headers = 'week;year;gid;name;pos;team;homeaway;oppt;points;salary;league'
 base_url = 'http://rotoguru1.com/cgi-bin/fyday.pl'
 
 
@@ -73,7 +73,7 @@ def scraper(years=None, weeks=None, game=None):
                     if idx == len(raw_data) - 1:
                         formatted_data = formatted_data + nullify_na.strip()
                     else:
-                        next_line = nullify_na.strip() + '\n'
+                        next_line = nullify_na.strip() + ';' + game + '\n'
                         formatted_data = formatted_data + next_line
 
             try:
