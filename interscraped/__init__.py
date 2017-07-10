@@ -2,7 +2,8 @@ from interscraped import (
     roto_guru,
     def_pts_vs,
     player_data,
-    consistency_ratings
+    consistency_ratings,
+    player_projections
 )
 
 
@@ -31,3 +32,7 @@ def indiv_player(options=None):
 
 def player_consistency(options=None):
     return consistency_ratings.scraper()
+
+
+def indiv_projections(options=None):
+    return player_projections.scraper()
