@@ -2,28 +2,34 @@ import os
 import time
 from robobrowser import RoboBrowser
 
+login_url = 'https://fantasydata.com/user/login.aspx'
+
 default_years = [
-    {'2002': 14},
-    {'2003': 13},
-    {'2004': 12},
-    {'2005': 11},
-    {'2006': 10},
-    {'2007': 9},
-    {'2008': 8},
-    {'2009': 7},
-    {'2010': 6},
-    {'2011': 5},
-    {'2012': 4},
-    {'2013': 3},
-    {'2014': 2},
-    {'2015': 1},
-    {'2016': 0}
+    {'2002': 15},
+    {'2003': 14},
+    {'2004': 13},
+    {'2005': 12},
+    {'2006': 11},
+    {'2007': 10},
+    {'2008': 9},
+    {'2009': 8},
+    {'2010': 7},
+    {'2011': 6},
+    {'2012': 5},
+    {'2013': 4},
+    {'2014': 3},
+    {'2015': 2},
+    {'2016': 1},
+    {'2017': 0}
 ]
+
+# Available stat data
 default_stat_types = [
     {'game': 1},
-    # {'redzone': 2},
-    # {'3rddwn': 3}
+    {'redzone': 2},
+    {'3rddwn': 3}
 ]
+
 default_weeks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 # QB, RB, WR, TE, DL, LB, DB, K, DST
@@ -41,17 +47,23 @@ default_pos = [
 
 # Scoring type (Fanduel default)
 fs = 2
-# Top level directory name
-directory = './player_data'
 
 headers = 'rank,id,player,pos,week,team,opp,opprank,oppposrank,salary,proj,seas'
 sn = w = ew = p = scope = None
 
 
-def scraper():
+def scraper(credentials, years=default_years, weeks=default_weeks, stat_type='game'):
     browser = RoboBrowser(parser='lxml')
+    browser.open(login_url)
+    login_form = browser.get_forms()[0]
+
+    # Set login credentials
+    login_form['ctl00$Body$EmailTextbox'].value = credentials['email']
+    login_form['ctl00$Body$PasswordTextbox'].value = credentials['password']
+    login_form.serialize()
 
     # Make the top-level directory for the CSV data
+    directory = './player_data_{}'.format(stat_type)
     os.mkdir(directory)
 
     # Open the previously hidden page
@@ -92,7 +104,7 @@ def scraper():
                     )
 
                     # Delay before retrieving next set of data
-                    time.sleep(1)
+                    time.sleep(0.5)
 
                     browser.open(player_data_url)
                     content = browser.find_all('tr')

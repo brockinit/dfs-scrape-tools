@@ -33,9 +33,21 @@ directory = './player_projections'
 headers = 'rank,id,player,pos,week,team,opp,passyds,td,int,proj,seas'
 sn = w = ew = p = scope = None
 
+login_url = 'https://fantasydata.com/user/login.aspx'
+
 
 def scraper():
     browser = RoboBrowser(parser='lxml')
+    browser.open(login_url)
+    login_form = browser.get_forms()[0]
+
+    # Set login credentials
+    login_form['ctl00$Body$EmailTextbox'].value = 'brock@sudokrew.com'
+    login_form['ctl00$Body$PasswordTextbox'].value = 'College7'
+    login_form.serialize()
+
+    # Submit login form
+    browser.submit_form(login_form)
 
     # Make the top-level directory for the CSV data
     os.mkdir(directory)
@@ -108,3 +120,4 @@ def scraper():
                     except RuntimeError as err:
                         print('Failed to write to file: ', err)
                         raise err
+

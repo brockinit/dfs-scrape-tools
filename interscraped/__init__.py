@@ -30,8 +30,8 @@ def indiv_player(options=None):
     return player_data.scraper()
 
 
-def player_consistency(options=None):
-    return consistency_ratings.scraper()
+def player_consistency(file_path):
+    return consistency_ratings.scraper(file_path)
 
 
 def indiv_projections(options=None):

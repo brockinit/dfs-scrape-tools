@@ -2,8 +2,8 @@ import os
 from requests import get
 from bs4 import BeautifulSoup
 
-default_years = [2011, 2012, 2013, 2014, 2015, 2016]
-default_weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+default_years = [2017]
+default_weeks = [2]
 default_games = ['fd', 'dk', 'yh']
 new_headers = 'week;year;gid;name;pos;team;homeaway;oppt;points;salary;league'
 base_url = 'http://rotoguru1.com/cgi-bin/fyday.pl'

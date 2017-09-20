@@ -1,19 +1,19 @@
-from robobrowser import RoboBrowser
 import os
+import boto3
+from robobrowser import RoboBrowser
 
-url = 'http://www.espn.com/fantasy/football/story/_/page/consistency201416/fantasy-football-consistency-ratings-2014-2016'
+url = 'http://www.espn.com/fantasy/football/story/_/page/consistency201417/fantasy-football-consistency-ratings-2014-2017'
 directory = './consistency_ratings'
-file_path = '{}/2014_2016.csv'.format(directory)
 headers = 'player,start_pct,cr,ppr_pct,fanptsgame,start,stud,stiff,sat'
 positions = ['QB', 'RB', 'WR', 'TE', 'K', 'D/ST', 'DL', 'LB', 'DB']
 
 
-def scraper():
+def scraper(file_path='2014_2017'):
+    client = boto3.client('s3')
+
     position_index = 0
     browser = RoboBrowser(parser='lxml')
     browser.open(url)
-
-    os.mkdir(directory)
 
     rows = browser.find_all('tr')
 
@@ -37,11 +37,14 @@ def scraper():
                 formatted_data = formatted_data + parsed_row + '\n'
 
     try:
-        # Write to the file
-        write_file = open(file_path, 'a')
-        write_file.write(formatted_data)
-        write_file.close()
+        # Upload object to the S3 bucket
+        data = client.put_object(
+            Bucket=os.environ['BUCKET_NAME'],
+            Body=formatted_data,
+            Key='consistency_ratings/{}.csv'.format(file_path)
+        )
+        return data
 
     except RuntimeError as err:
-        print('Failed to write to file: ', err)
+        print('Failed to upload object: ', err)
         raise err

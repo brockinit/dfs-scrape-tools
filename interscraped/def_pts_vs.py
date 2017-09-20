@@ -2,82 +2,107 @@ import os
 import time
 from robobrowser import RoboBrowser
 
+login_url = 'https://fantasydata.com/user/login.aspx'
+
 default_years = [
-    {'2012': 4},
-    {'2013': 3},
-    {'2014': 2},
-    {'2015': 1},
-    {'2016': 0}
+    {'2012': 5},
+    {'2013': 4},
+    {'2014': 3},
+    {'2015': 2},
+    {'2016': 1},
+    {'2017': 0}
 ]
-default_weeks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
+default_weeks = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+
+# rankings by position
+default_position_rankings = [
+    {'file': '', 'url': 'FanDuelFantasyPointsAllowedAverage'},
+    {'file': '_qb', 'url': 'FanDuelQuarterbackFantasyPointsAllowedAverage'},
+    {'file': '_rb', 'url': 'FanDuelRunningbackFantasyPointsAllowedAverage'},
+    {'file': '_wr', 'url': 'FanDuelWideReceiverFantasyPointsAllowedAverage'},
+    {'file': '_te', 'url': 'FanDuelTightEndFantasyPointsAllowedAverage'},
+    {'file': '_k', 'url': 'FanDuelKickerFantasyPointsAllowedAverage'}
+]
 
 # Full season or week by week stats
 scope = 1
 # Scoring type (Fanduel default)
-fs = 2
-# Top level directory name
-directory = './def_points_vs'
+fs = 1
 
 headers = 'rank,id,player,week,team,opp,games,qbpts,rbpts,wrpts,tepts,kpts,fanptsgame,seas'
 sn = w = ew = None
 
 
-def scraper():
-    browser = RoboBrowser(parser='lxml')
+def scraper(email, password):
+    browser = RoboBrowser(parser='lxml', history=True)
+    browser.open(login_url)
+    login_form = browser.get_forms()[0]
 
-    # Make the top-level directory for the CSV data
-    os.mkdir(directory)
+    # Set login credentials
+    login_form['ctl00$Body$EmailTextbox'].value = email
+    login_form['ctl00$Body$PasswordTextbox'].value = password
+    login_form.serialize()
 
-    # Open the previously hidden page
-    for yearIdx, year in enumerate(default_years):
-        year_dict = default_years[yearIdx]
-        year_key = list(year_dict.keys())[0]
-        sn = year_dict[year_key]
+    # Submit login form
+    browser.submit_form(login_form)
 
-        # Make the directory for each year of CSV Data
-        file_path = '{}/{}.csv'.format(directory, year_key)
-        create_year_file = os.open(file_path, os.O_CREAT)
-        os.close(create_year_file)
+    for position_ranking in default_position_rankings:
+        # Make the top-level directory for the CSV data
+        directory = 'def_vs{}'.format(position_ranking['file'])
+        os.mkdir(directory)
+        # Open the previously hidden page
+        for yearIdx, year in enumerate(default_years):
+            year_dict = default_years[yearIdx]
+            year_key = list(year_dict.keys())[0]
+            sn = year_dict[year_key]
 
-        for week in default_weeks:
-            w = week
-            ew = week
-            pts_vs_url = 'https://fantasydata.com/nfl-stats/nfl-fantasy-football-points-allowed-defense-by-position.aspx?fs={}&stype=0&sn={}&scope={}&w={}&ew={}&s=&t=0&p=0&st=FantasyPointsAllowedAverage&d=1&ls=FantasyPointsAllowedAverage&live=false&pid=true&minsnaps=4'.format(
-                fs,
-                sn,
-                scope,
-                w,
-                ew
-            )
+            # Make the directory for each year of CSV Data
+            file_path = '{}/{}.csv'.format(directory, year_key)
+            create_year_file = os.open(file_path, os.O_CREAT)
+            os.close(create_year_file)
 
-            # Delay before retrieving next set of data
-            time.sleep(2)
+            for week in default_weeks:
+                w = week
+                ew = week
+                pts_vs_url = 'https://fantasydata.com/nfl-stats/nfl-fantasy-football-points-allowed-defense-by-position.aspx?fs={}&stype=0&sn={}&scope={}&w={}&ew={}&s=&t=0&p=0&st={}&d=1&ls={}&live=false&pid=true&minsnaps=4'.format(
+                    fs,
+                    sn,
+                    scope,
+                    w,
+                    ew,
+                    position_ranking['url'],
+                    position_ranking['url']
+                )
 
-            browser.open(pts_vs_url)
-            content = browser.find_all('tr')
+                # Delay before retrieving next set of data
+                time.sleep(0.5)
 
-            # Initialize the data to be written to the file
-            formatted_data = ''
+                browser.open(pts_vs_url)
+                content = browser.find_all('tr')
 
-            for idx, line in enumerate(content):
-                # Only add the header once per year
-                if idx == 0 and week == 0:
-                    formatted_data = headers + '\n'
-                elif idx != 0:
-                    parsed_data = ','.join(line.find_all(text=True))
-                    stripped_line = parsed_data.strip('\n').strip(',')
-                    year_value = str(list(year.keys())[0])
-                    next_line = stripped_line + ',' + year_value + '\n'
+                # Initialize the data to be written to the file
+                formatted_data = ''
 
-                    formatted_data = formatted_data + next_line
+                for idx, line in enumerate(content):
+                    # Only add the header once per year
+                    if idx == 0 and week == 0:
+                        formatted_data = headers + '\n'
+                    elif idx != 0:
+                        parsed_data = ','.join(line.find_all(text=True))
+                        stripped_line = parsed_data.strip('\n').strip(',')
+                        year_value = str(list(year.keys())[0])
+                        next_line = stripped_line + ',' + year_value + '\n'
 
-            try:
-                # Write to the current year file
-                print(file_path, ':', week)
-                write_file = open(file_path, 'a')
-                write_file.write(formatted_data)
-                write_file.close()
+                        formatted_data = formatted_data + next_line
 
-            except RuntimeError as err:
-                print('Failed to write to file: ', err)
-                raise err
+                try:
+                    # Write to the current year file
+                    print(file_path, ':', week)
+                    write_file = open(file_path, 'a')
+                    write_file.write(formatted_data)
+                    write_file.close()
+
+                except RuntimeError as err:
+                    print('Failed to write to file: ', err)
+                    raise err
