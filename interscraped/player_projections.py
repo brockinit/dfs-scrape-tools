@@ -63,7 +63,6 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                 pos_key = list(pos_dict.keys())[0]
                 p = pos_dict[pos_key]
 
-
                 for stat_idx, stat_type in enumerate(default_stat_types):
                     # Assign scope param here
                     stat_type_dict = default_stat_types[stat_idx]
