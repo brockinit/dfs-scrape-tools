@@ -154,7 +154,6 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                             Body=formatted_data,
                             Key=file_path
                         )
-
                     except RuntimeError as err:
                         print('Failed to write to file: ', err)
                         raise err
