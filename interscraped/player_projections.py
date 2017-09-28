@@ -120,4 +120,3 @@ def scraper():
                     except RuntimeError as err:
                         print('Failed to write to file: ', err)
                         raise err
-

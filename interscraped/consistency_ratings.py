@@ -38,13 +38,16 @@ def scraper(file_path='2014_2017'):
 
     try:
         # Upload object to the S3 bucket
-        data = client.put_object(
+        client.put_object(
             Bucket=os.environ['BUCKET_NAME'],
             Body=formatted_data,
-            Key='consistency_ratings/{}.csv'.format(file_path)
+            Key='{}/{}.csv'.format(
+                os.environ['CONSISTENCY_OBJECT_PATH'],
+                file_path
+            )
         )
-        return data
-
     except RuntimeError as err:
         print('Failed to upload object: ', err)
         raise err
+
+    print('Success! Uploaded data: {}'.format(file_path))

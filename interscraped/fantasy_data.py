@@ -63,7 +63,7 @@ def scraper(email, password):
             for pos in default_pos:
                 # Assign p param here
                 p = pos
-                snap_count_url = 'https://fantasydata.com/nfl-stats/nfl-fantasy-football-snap-count-and-snaps-played.aspx?fs={}&stype=0&sn={}&scope={}&w={}&ew={}&s=&t=0&p={}&st=FantasyPointSnapPercentage&d=1&ls=&live=false&pid=true&minsnaps=4'.format(
+                snap_count_url = 'https://fantasydata.com/nfl-stats/nfl-fantasy-football-snap-count-and-snaps-played.aspx?fs={}&stype=0&sn={}&scope={}&w={}&ew={}&s=&t=0&p={}&st=FantasyPointSnapPercentage&d=1&ls=FantasyPointSnapPercentage&live=false&pid=true&minsnaps=4'.format(
                     fs,
                     sn,
                     scope,
@@ -73,7 +73,7 @@ def scraper(email, password):
                 )
 
                 # Delay before retrieving next set of data
-                time.sleep(2)
+                time.sleep(0.5)
 
                 browser.open(snap_count_url)
                 content = browser.find_all('tr')
