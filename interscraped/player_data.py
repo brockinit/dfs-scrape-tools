@@ -6,27 +6,27 @@ from robobrowser import RoboBrowser
 login_url = 'https://fantasydata.com/user/login.aspx'
 
 default_years = [
-    # {'2002': 15},
-    # {'2003': 14},
-    # {'2004': 13},
-    # {'2005': 12},
-    # {'2006': 11},
-    # {'2007': 10},
-    # {'2008': 9},
-    # {'2009': 8},
-    # {'2010': 7},
-    # {'2011': 6},
-    # {'2012': 5},
-    # {'2013': 4},
-    # {'2014': 3},
-    # {'2015': 2},
-    # {'2016': 1},
+    {'2002': 15},
+    {'2003': 14},
+    {'2004': 13},
+    {'2005': 12},
+    {'2006': 11},
+    {'2007': 10},
+    {'2008': 9},
+    {'2009': 8},
+    {'2010': 7},
+    {'2011': 6},
+    {'2012': 5},
+    {'2013': 4},
+    {'2014': 3},
+    {'2015': 2},
+    {'2016': 1},
     {'2017': 0}
 ]
 
 redzone_3rddwn_years = [
-    # {'2015': 2},
-    # {'2016': 1},
+    {'2015': 2},
+    {'2016': 1},
     {'2017': 0}
 ]
 
@@ -40,7 +40,20 @@ default_stat_types = [
 default_weeks = [
     {'1': 0},
     {'2': 1},
-    {'3': 2}
+    {'3': 2},
+    {'4': 3},
+    {'5': 4},
+    {'6': 5},
+    {'7': 6},
+    {'8': 7},
+    {'9': 8},
+    {'10': 9},
+    {'11': 10},
+    {'12': 11},
+    {'13': 12},
+    {'14': 13},
+    {'15': 14},
+    {'16': 15}
 ]
 
 # QB, RB, WR, TE, DL, LB, DB, K, DST
@@ -82,11 +95,11 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
     login_form.serialize()
 
     for stat_idx, stat_type in enumerate(default_stat_types):
+        years_list = years
+
         if list(stat_type.keys())[0] != 'game':
-            years_list = redzone_3rddwn_years
             pos_list = redzone_3rddwn_pos
         else:
-            years_list = default_years
             pos_list = default_pos
 
         # Open the previously hidden page
@@ -140,7 +153,8 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
 
                             formatted_data = formatted_data + next_line
 
-                    file_path = 'current_season/player_data_{}/{}/{}/{}.csv'.format(
+                    file_path = '{}{}/{}/{}/{}.csv'.format(
+                        os.environ['PLAYER_STAT_OBJECT_PATH'],
                         stat_type_key,
                         year_key,
                         week_key,
@@ -159,6 +173,3 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                         raise err
 
                     print('Success! Uploaded data: {}'.format(file_path))
-
-
-scraper({'email': 'brock+777@sudokrew.com', 'password': 'College7'})
