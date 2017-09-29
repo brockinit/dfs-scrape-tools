@@ -3,7 +3,9 @@ from interscraped import (
     def_pts_vs,
     player_data,
     consistency_ratings,
-    player_projections
+    player_projections,
+    fanduel_salaries,
+    snap_counts
 )
 
 
@@ -22,17 +24,25 @@ def daily_fantasy(options=None):
         return roto_guru.scraper(years, weeks, game)
 
 
-def def_vs(options=None):
-    return def_pts_vs.scraper()
+def def_vs(credentials, weeks=default_weeks, years=default_years):
+    return def_pts_vs.scraper(credentials, weeks=default_weeks, years=default_years)
 
 
-def indiv_player(options=None):
-    return player_data.scraper()
+def player_stats(credentials, weeks=default_weeks, years=default_years):
+    return player_data.scraper(credentials, weeks=default_weeks, years=default_years)
 
 
 def player_consistency(file_path):
     return consistency_ratings.scraper(file_path)
 
 
-def indiv_projections(options=None):
-    return player_projections.scraper()
+def player_projections(credentials, weeks=default_weeks, years=default_years):
+    return player_projections.scraper(credentials, weeks=default_weeks, years=default_years)
+
+
+def player_snap_counts(credentials, weeks=default_weeks, years=default_years):
+    return player_projections.scraper(credentials, weeks=default_weeks, years=default_years)
+
+
+def player_salaries(credentials, weeks=default_weeks, years=default_years):
+    return player_projections.scraper(credentials, weeks=default_weeks, years=default_years)
