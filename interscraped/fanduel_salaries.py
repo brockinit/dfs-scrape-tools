@@ -106,6 +106,3 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                 raise err
 
             print('Success! Uploaded data: {}'.format(file_path))
-
-
-scraper({ 'email': 'brock+777@sudokrew.com', 'password': 'College7' })
