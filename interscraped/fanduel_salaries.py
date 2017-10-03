@@ -1,4 +1,3 @@
-import os
 import time
 import boto3
 from robobrowser import RoboBrowser
@@ -30,7 +29,7 @@ sn = w = ew = p = scope = None
 login_url = 'https://fantasydata.com/user/login.aspx'
 
 
-def scraper(credentials, years=default_years, weeks=default_weeks):
+def fanduel_salaries_scraper(credentials, bucket_name, obj_path, years=default_years, weeks=default_weeks):
     client = boto3.client('s3')
     browser = RoboBrowser(parser='lxml')
     browser.open(login_url)
@@ -89,7 +88,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                         formatted_data = formatted_data + next_line
 
                 file_path = '{}/{}/{}.csv'.format(
-                    os.environ['SALARY_OBJECT_PATH'],
+                    obj_path,
                     year_key,
                     week + 1
                 )
@@ -97,7 +96,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
             try:
                 # Upload object to the S3 bucket
                 client.put_object(
-                    Bucket=os.environ['BUCKET_NAME'],
+                    Bucket=bucket_name,
                     Body=formatted_data,
                     Key=file_path
                 )

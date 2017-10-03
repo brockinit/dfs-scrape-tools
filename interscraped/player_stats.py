@@ -1,4 +1,3 @@
-import os
 import time
 import boto3
 from robobrowser import RoboBrowser
@@ -83,7 +82,7 @@ headers = 'rank,id,player,pos,week,team,opp,opprank,oppposrank,salary,proj,seas'
 sn = w = ew = p = scope = None
 
 
-def scraper(credentials, years=default_years, weeks=default_weeks):
+def player_stats_scraper(credentials, bucket_name, obj_path, years=default_years, weeks=default_weeks):
     client = boto3.client('s3')
     browser = RoboBrowser(parser='lxml')
     browser.open(login_url)
@@ -154,7 +153,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                             formatted_data = formatted_data + next_line
 
                     file_path = '{}{}/{}/{}/{}.csv'.format(
-                        os.environ['PLAYER_STAT_OBJECT_PATH'],
+                        obj_path,
                         stat_type_key,
                         year_key,
                         week_key,
@@ -164,7 +163,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                     try:
                         # Upload object to the S3 bucket
                         client.put_object(
-                            Bucket=os.environ['BUCKET_NAME'],
+                            Bucket=bucket_name,
                             Body=formatted_data,
                             Key=file_path
                         )

@@ -9,7 +9,7 @@ new_headers = 'week;year;gid;name;pos;team;homeaway;oppt;points;salary;league'
 base_url = 'http://rotoguru1.com/cgi-bin/fyday.pl'
 
 
-def scraper(years=None, weeks=None, game=None):
+def roto_guru_scraper(years=None, weeks=None, game=None):
     if years is None or type(years) != list:
         years = default_years
     if weeks is None or type(weeks) != list:
