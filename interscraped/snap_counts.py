@@ -55,7 +55,7 @@ def snap_counts_scraper(
     # Open the previously hidden page
     for yearIdx, year in enumerate(years):
         # Assign sn param here
-        year_dict = default_years[yearIdx]
+        year_dict = years[yearIdx]
         year_key = list(year_dict.keys())[0]
         sn = year_dict[year_key]
 
