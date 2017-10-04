@@ -1,4 +1,3 @@
-import os
 import time
 import boto3
 from robobrowser import RoboBrowser
@@ -33,9 +32,15 @@ headers = 'rank,id,player,pos,team,opp,week,snaps,snappct,rushpct,tgtpct,tchpct,
 sn = w = ew = p = None
 
 
-def scraper(credentials, years=default_years, weeks=default_weeks):
+def snap_counts_scraper(
+    credentials,
+    bucket_name,
+    obj_path,
+    years=default_years,
+    weeks=default_weeks
+):
     client = boto3.client('s3')
-    browser = RoboBrowser(parser='lxml')
+    browser = RoboBrowser()
     browser.open(login_url)
     login_form = browser.get_forms()[0]
 
@@ -50,7 +55,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
     # Open the previously hidden page
     for yearIdx, year in enumerate(years):
         # Assign sn param here
-        year_dict = default_years[yearIdx]
+        year_dict = years[yearIdx]
         year_key = list(year_dict.keys())[0]
         sn = year_dict[year_key]
 
@@ -99,7 +104,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
 
                 # Make the directory for each year of CSV Data
                 file_path = '{}/{}/{}/{}.csv'.format(
-                    os.environ['SNAP_COUNT_OBJECT_PATH'],
+                    obj_path,
                     year_key,
                     week + 1,
                     pos_key
@@ -108,7 +113,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                 try:
                     # Upload object to the S3 bucket
                     client.put_object(
-                        Bucket=os.environ['BUCKET_NAME'],
+                        Bucket=bucket_name,
                         Body=formatted_data,
                         Key=file_path
                     )

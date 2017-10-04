@@ -1,4 +1,3 @@
-import os
 import boto3
 from robobrowser import RoboBrowser
 
@@ -8,11 +7,11 @@ headers = 'player,start_pct,cr,ppr_pct,fanptsgame,start,stud,stiff,sat'
 positions = ['QB', 'RB', 'WR', 'TE', 'K', 'D/ST', 'DL', 'LB', 'DB']
 
 
-def scraper(file_path='2014_2017'):
+def consistency_scraper(bucket_name, obj_path, file_path='2014_2017'):
     client = boto3.client('s3')
 
     position_index = 0
-    browser = RoboBrowser(parser='lxml')
+    browser = RoboBrowser()
     browser.open(url)
 
     rows = browser.find_all('tr')
@@ -39,10 +38,10 @@ def scraper(file_path='2014_2017'):
     try:
         # Upload object to the S3 bucket
         client.put_object(
-            Bucket=os.environ['BUCKET_NAME'],
+            Bucket=bucket_name,
             Body=formatted_data,
             Key='{}/{}.csv'.format(
-                os.environ['CONSISTENCY_OBJECT_PATH'],
+                obj_path,
                 file_path
             )
         )

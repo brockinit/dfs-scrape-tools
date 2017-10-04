@@ -1,4 +1,3 @@
-import os
 import time
 import boto3
 from robobrowser import RoboBrowser
@@ -34,9 +33,15 @@ sn = w = ew = p = scope = None
 login_url = 'https://fantasydata.com/user/login.aspx'
 
 
-def scraper(credentials, years=default_years, weeks=default_weeks):
+def player_projections_scraper(
+    credentials,
+    bucket_name,
+    obj_path,
+    years=default_years,
+    weeks=default_weeks
+):
     client = boto3.client('s3')
-    browser = RoboBrowser(parser='lxml')
+    browser = RoboBrowser()
     browser.open(login_url)
     login_form = browser.get_forms()[0]
 
@@ -99,7 +104,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                             formatted_data = formatted_data + next_line
 
                     file_path = '{}/{}/{}/{}.csv'.format(
-                        os.environ['PROJECTION_OBJECT_PATH'],
+                        obj_path,
                         year_key,
                         week + 1,
                         pos_key
@@ -108,7 +113,7 @@ def scraper(credentials, years=default_years, weeks=default_weeks):
                     try:
                         # Upload object to the S3 bucket
                         client.put_object(
-                            Bucket=os.environ['BUCKET_NAME'],
+                            Bucket=bucket_name,
                             Body=formatted_data,
                             Key=file_path
                         )
