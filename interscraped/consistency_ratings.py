@@ -7,11 +7,11 @@ headers = 'player,start_pct,cr,ppr_pct,fanptsgame,start,stud,stiff,sat'
 positions = ['QB', 'RB', 'WR', 'TE', 'K', 'D/ST', 'DL', 'LB', 'DB']
 
 
-def consistency_scraper(file_path='2014_2017', bucket_name, obj_path):
+def consistency_scraper(bucket_name, obj_path, file_path='2014_2017'):
     client = boto3.client('s3')
 
     position_index = 0
-    browser = RoboBrowser(parser='lxml')
+    browser = RoboBrowser()
     browser.open(url)
 
     rows = browser.find_all('tr')

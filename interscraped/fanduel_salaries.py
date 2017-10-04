@@ -29,9 +29,15 @@ sn = w = ew = p = scope = None
 login_url = 'https://fantasydata.com/user/login.aspx'
 
 
-def fanduel_salaries_scraper(credentials, bucket_name, obj_path, years=default_years, weeks=default_weeks):
+def fanduel_salaries_scraper(
+    credentials,
+    bucket_name,
+    obj_path,
+    years=default_years,
+    weeks=default_weeks
+):
     client = boto3.client('s3')
-    browser = RoboBrowser(parser='lxml')
+    browser = RoboBrowser()
     browser.open(login_url)
     login_form = browser.get_forms()[0]
 

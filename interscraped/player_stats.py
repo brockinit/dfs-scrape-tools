@@ -82,9 +82,15 @@ headers = 'rank,id,player,pos,week,team,opp,opprank,oppposrank,salary,proj,seas'
 sn = w = ew = p = scope = None
 
 
-def player_stats_scraper(credentials, bucket_name, obj_path, years=default_years, weeks=default_weeks):
+def player_stats_scraper(
+    credentials,
+    bucket_name,
+    obj_path,
+    years=default_years,
+    weeks=default_weeks
+):
     client = boto3.client('s3')
-    browser = RoboBrowser(parser='lxml')
+    browser = RoboBrowser()
     browser.open(login_url)
     login_form = browser.get_forms()[0]
 

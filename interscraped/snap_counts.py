@@ -32,9 +32,15 @@ headers = 'rank,id,player,pos,team,opp,week,snaps,snappct,rushpct,tgtpct,tchpct,
 sn = w = ew = p = None
 
 
-def snap_counts_scraper(credentials, bucket_name, obj_path, years=default_years, weeks=default_weeks):
+def snap_counts_scraper(
+    credentials,
+    bucket_name,
+    obj_path,
+    years=default_years,
+    weeks=default_weeks
+):
     client = boto3.client('s3')
-    browser = RoboBrowser(parser='lxml')
+    browser = RoboBrowser()
     browser.open(login_url)
     login_form = browser.get_forms()[0]
 

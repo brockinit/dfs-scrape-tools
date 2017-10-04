@@ -34,9 +34,15 @@ headers = 'rank,id,player,week,team,opp,games,qbpts,rbpts,wrpts,tepts,kpts,fanpt
 sn = w = ew = None
 
 
-def def_vs_scraper(credentials, bucket_name, obj_path, years=default_years, weeks=default_weeks):
+def def_vs_scraper(
+    credentials,
+    bucket_name,
+    obj_path,
+    years=default_years,
+    weeks=default_weeks
+):
     client = boto3.client('s3')
-    browser = RoboBrowser(parser='lxml', history=True)
+    browser = RoboBrowser()
     browser.open(login_url)
     login_form = browser.get_forms()[0]
 
