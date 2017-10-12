@@ -1,13 +1,11 @@
 import boto3
 from robobrowser import RoboBrowser
 
-url = 'http://www.espn.com/fantasy/football/story/_/page/consistency201417/fantasy-football-consistency-ratings-2014-2017'
-directory = './consistency_ratings'
 headers = 'player,start_pct,cr,ppr_pct,fanptsgame,start,stud,stiff,sat'
 positions = ['QB', 'RB', 'WR', 'TE', 'K', 'D/ST', 'DL', 'LB', 'DB']
 
 
-def consistency_scraper(bucket_name, obj_path, file_path='2014_2017'):
+def consistency_scraper(url, bucket_name, obj_path, file_path='2015_2017'):
     client = boto3.client('s3')
 
     position_index = 0
