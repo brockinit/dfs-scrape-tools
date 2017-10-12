@@ -36,24 +36,7 @@ default_stat_types = [
     {'3rddwn': 3}
 ]
 
-default_weeks = [
-    {'1': 0},
-    {'2': 1},
-    {'3': 2},
-    {'4': 3},
-    {'5': 4},
-    {'6': 5},
-    {'7': 6},
-    {'8': 7},
-    {'9': 8},
-    {'10': 9},
-    {'11': 10},
-    {'12': 11},
-    {'13': 12},
-    {'14': 13},
-    {'15': 14},
-    {'16': 15}
-]
+default_weeks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 # QB, RB, WR, TE, DL, LB, DB, K, DST
 default_pos = [
@@ -119,11 +102,8 @@ def player_stats_scraper(
                 p = pos_dict[pos_key]
 
                 for week_idx, week in enumerate(weeks):
-                    week_dict = weeks[week_idx]
-                    week_key = list(week_dict.keys())[0]
-                    cur_week = week_dict[week_key]
-                    w = cur_week
-                    ew = cur_week
+                    w = week
+                    ew = week
 
                     # Assign scope param here
                     stat_type_dict = default_stat_types[stat_idx]
@@ -148,7 +128,7 @@ def player_stats_scraper(
 
                     for idx, line in enumerate(content):
                         # Only add the header once per year
-                        if idx == 0 and cur_week == 0 and pos == 2:
+                        if idx == 0 and week == 0 and pos == 2:
                             formatted_data = headers + '\n'
                         elif idx != 0:
                             parsed_data = ','.join(line.find_all(text=True))
@@ -158,13 +138,21 @@ def player_stats_scraper(
 
                             formatted_data = formatted_data + next_line
 
-                    file_path = '{}{}/{}/{}/{}.csv'.format(
-                        obj_path,
-                        stat_type_key,
-                        year_key,
-                        week_key,
-                        pos_key
-                    )
+                    if stat_type_key != 'game':
+                        file_path = '{}{}/{}/{}.csv'.format(
+                            obj_path,
+                            stat_type_key,
+                            year_key,
+                            pos_key
+                        )
+                    else:
+                        file_path = '{}{}/{}/{}/{}.csv'.format(
+                            obj_path,
+                            stat_type_key,
+                            year_key,
+                            week + 1,
+                            pos_key
+                        )
 
                     try:
                         # Upload object to the S3 bucket
