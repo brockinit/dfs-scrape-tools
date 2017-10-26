@@ -86,7 +86,11 @@ def fanduel_salaries_scraper(
                     if idx == 0 and week == 0 and p == 2:
                         formatted_data = headers + '\n'
                     elif idx != 0:
-                        parsed_data = ','.join(line.find_all(text=True))
+                        # Remove the comma from each salary 5,200 >> 5200
+                        line_values = line.find_all(text=True)
+                        line_values[10] = line_values[10].replace(',', '')
+
+                        parsed_data = ','.join(line_values)
                         stripped_line = parsed_data.strip('\n').strip(',')
                         extra_fields = ',' + year_key
                         next_line = stripped_line + extra_fields + '\n'
